@@ -1,0 +1,43 @@
+<mat-card class="auth-card">
+<mat-card-title>{{isLogin? 'Login': "Register"}}</mat-card-title>
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+    <mat-form-field *ngIf="!isLogin">
+        <mat-label>Username</mat-label>
+        <input type="text" matInput formControlName="username" required>
+        <mat-error *ngIf="authForm.get('username')?.hasError('required')">
+            Username is required
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input type="text" matInput formControlName="email" required>
+        <mat-error *ngIf="authForm.get('email')?.hasError('required')">
+            Email is required
+        </mat-error>
+        <mat-error *ngIf="authForm.get('email')?.hasError('email')">
+            Enter a valid email address
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type="text" matInput formControlName="password" required>
+        <mat-error *ngIf="authForm.get('password')?.hasError('required')">
+            Password is required
+        </mat-error>
+        <mat-error *ngIf="authForm.get('password')?.hasError('minlength')">
+            Minimum 6 characters required
+        </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="!authForm.valid">
+        {{isLogin? 'Login': "Register" }}
+    </button>
+</form>
+
+<p>
+    {{isLogin? 'Don\'t have an account?': 'Already have an account?'}}
+    <a (click)="toggleMode()">{{isLogin? 'Register': "Login" }}</a>
+</p>
+</mat-card>
