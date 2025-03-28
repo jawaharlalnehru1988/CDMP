@@ -1,21 +1,72 @@
-<div class="dashboard-container">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>Welcome {{userName}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <h3>Your Health Metrics</h3>
-            <div *ngIf="userMetrics; else noData">
-                    <p><strong>Blood Sugar: </strong>{{userMetrics.bloodSugar}}</p>
-                    <p><strong>Weight: </strong>{{userMetrics.weight}}</p>
-            </div>
-            <ng-template #noData>
-                <p>No data available. Please log your health metrics.</p>
-            </ng-template>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-raised-button color="warn" (click)="logout()">Logouts</button>
-        </mat-card-actions>
-    </mat-card>
+<main>   
+    <aside>
+    <div>
+        <ul>
+            <li>Dashboard</li>
+            <li>My Profie</li>
+            <li>Health Metrics</li>
+            <li>Messages</li>
+            <li (click)="logout()">Logout</li>
+        </ul>
+    </div>
+</aside>
+<aside>
+    <section class="metric-section">
+        <form [formGroup]="healthMetricsForm" (ngSubmit)="onSubmit()">
+            <!-- <div>
 
-</div>
+                <mat-form-field appearance="fill">
+                    <mat-label>User ID</mat-label>
+                    <input matInput formControlName="user" placeholder="Enter User ID">
+                </mat-form-field>
+            </div> -->
+            <h1>Create / Update your Health Metrics</h1>
+            <div>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option value="blood_sugar">Blood Sugar</mat-option>
+                        <mat-option value="blood_pressure">Blood Pressure</mat-option>
+                        <mat-option value="weight">Weight</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                .
+                <mat-form-field appearance="fill">
+                    <mat-label>Value</mat-label>
+                    <input matInput formControlName="value" maxlength="3" type="number" placeholder="Enter Value">
+                </mat-form-field>
+            </div>
+          
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+            </form>
+    </section>
+
+</aside>
+<aside>
+    <div class="dashboard-container">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Welcome {{userName}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <h3>Your Health Metrics</h3>
+                <div *ngIf="userMetrics; else noData">
+                        <p><strong>Blood Sugar: </strong>{{userMetrics.bloodSugar}}</p>
+                        <p><strong>Weight: </strong>{{userMetrics.weight}}</p>
+                </div>
+                <ng-template #noData>
+                    <p>No data available. Please log your health metrics.</p>
+                </ng-template>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="warn">Update</button>
+            </mat-card-actions>
+        </mat-card>
+    
+    </div>
+
+</aside>
+</main>

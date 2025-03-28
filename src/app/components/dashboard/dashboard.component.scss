@@ -5,9 +5,20 @@
     height: 100vh;
     background: #f5f5f5;
 }
+.metric-section{
+    padding: 12px;
+    padding: 12px;
+    border: 1px solid #d1cfcf;
+}
 
+mat-form-field{
+    width: 100%;
+}
+
+main{
+    display: flex;
+}
 mat-card{
-    width: 400px;
     text-align: center;
     padding: 20px;
 }
@@ -16,7 +27,37 @@ mat-card-content{
     margin-top: 15px;
 }
 
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background-color: #e0f7fa; /* Light hospital blue */
+    color: #00796b; /* Darker hospital blue */
+    padding: 10px;
+    margin: 5px 0;
+    text-align: center;
+    cursor: pointer;
+    width: 100%; /* Take the width of the parent */
+    box-sizing: border-box; /* Include padding in the width */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+li:hover{
+    background-color: #00796b; /* Darker hospital blue */
+    color: #fff;
+}
+
+
 mat-card-actions{
     display: flex;
     justify-content: center;
+}
+
+main> :first-child{
+    border: 1px solid #ccc;
+    height: 100vh;
+    width: 10rem;
 }
