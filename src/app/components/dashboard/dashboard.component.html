@@ -1,1 +1,21 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Welcome {{userName}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <h3>Your Health Metrics</h3>
+            <div *ngIf="userMetrics; else noData">
+                    <p><strong>Blood Sugar: </strong>{{userMetrics.bloodSugar}}</p>
+                    <p><strong>Weight: </strong>{{userMetrics.weight}}</p>
+            </div>
+            <ng-template #noData>
+                <p>No data available. Please log your health metrics.</p>
+            </ng-template>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="warn" (click)="logout()">Logouts</button>
+        </mat-card-actions>
+    </mat-card>
+
+</div>
