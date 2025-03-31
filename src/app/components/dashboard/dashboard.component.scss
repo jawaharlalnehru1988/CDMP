@@ -1,9 +1,8 @@
 .dashboard-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #f5f5f5;
+        display: flex;
+        height: 100vh;
+        width: 60vw;
+        background: #f5f5f5;
 }
 .metric-section{
     padding: 12px;
@@ -49,7 +48,9 @@ li:hover{
     background-color: #00796b; /* Darker hospital blue */
     color: #fff;
 }
-
+input[type="number"] {
+    width: 70px; /* Adjust the width as needed */
+  }
 
 mat-card-actions{
     display: flex;

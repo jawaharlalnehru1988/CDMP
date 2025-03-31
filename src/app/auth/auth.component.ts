@@ -1,11 +1,13 @@
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import {FormGroup, FormControl, FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule} from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../services/auth.service';
+import { SuccessLogin } from '../services/interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -27,7 +29,8 @@ export class AuthComponent {
   errorMessage: string = '';
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.authForm = this.formBuilder.group({
       username: [''],
@@ -44,7 +47,12 @@ export class AuthComponent {
         this.authService
           .login({ email: formData.email, password: formData.password })
           .subscribe({
-            next: () => console.log('login successfull'),
+            next: (response: SuccessLogin) => {
+              localStorage.setItem(this.authService.takeToken(), response.token);
+              this.authService.isAuthenticatedSubject.next(true);
+              this.authService.decodeToken(response.token);
+              this.router.navigate(['/dashboard']);
+            },
             error: (err) =>
               (this.errorMessage = err.console.message || 'Login Failed'),
           });

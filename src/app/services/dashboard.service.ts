@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HealthMetric } from './interfaces';
 
@@ -19,8 +19,8 @@ export class DashboardService {
   createHealthMetrics(data: HealthMetric): Observable<HealthMetric>{
     return this.http.post<HealthMetric>(`${this.apiUrl}/create`, data);
   }
-  updateHealthMetrics(id: string, data: HealthMetric): Observable<HealthMetric>{
-    return this.http.put<HealthMetric>(`${this.apiUrl}/update/${id}`, data);
+  updateHealthMetrics(id: string, data: number): Observable<HealthMetric>{
+    return this.http.patch<HealthMetric>(`${this.apiUrl}/update/${id}`, data);
   }
 
   deleteHealthMetrics(id: string): Observable<any>{

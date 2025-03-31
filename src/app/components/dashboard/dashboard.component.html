@@ -14,7 +14,7 @@
     <section class="metric-section">
         <form [formGroup]="healthMetricsForm" (ngSubmit)="onSubmit()">
             <div>
-                    <h1>{{userData.username}}</h1>
+                    <h1>{{userData?.username}}</h1>
             </div>
             <h1>Create / Update your Health Metrics</h1>
             <div>
@@ -43,24 +43,30 @@
 </aside>
 <aside>
     <div class="dashboard-container">
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>Welcome {{userName}}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <h3>Your Health Metrics</h3>
-                <div *ngIf="userMetrics; else noData">
-                        <p><strong>Blood Sugar: </strong>{{userMetrics.bloodSugar}}</p>
-                        <p><strong>Weight: </strong>{{userMetrics.weight}}</p>
-                </div>
-                <ng-template #noData>
-                    <p>No data available. Please log your health metrics.</p>
-                </ng-template>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-raised-button color="warn">Update</button>
-            </mat-card-actions>
-        </mat-card>
+        @for(metric of userMetrics; track metric){
+
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Your {{metric.type}} Metrics</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    @if(metric.matchedDatas){
+                            @for (item of metric.matchedDatas; track item) {
+                                <p><strong>{{item.updatedAt | date:"MM/dd/yy"}}: </strong></p>
+                                <input type="number" [value]="item.value" #temValue min=0 max=999 (input)="0"> 
+                                <mat-icon (click)="updateValue(temValue.value, item._id)" fontIcon="edit"></mat-icon> 
+                                 <mat-icon (click)="deleteValue(item._id)" fontIcon="delete"></mat-icon>
+                            }
+                    } @else{
+
+                        <p>No data available. Please log your health metrics.</p>
+                    }
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="warn">show Chart</button>
+                </mat-card-actions>
+            </mat-card>
+        }
     
     </div>
 
