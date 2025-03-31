@@ -13,13 +13,9 @@
 <aside>
     <section class="metric-section">
         <form [formGroup]="healthMetricsForm" (ngSubmit)="onSubmit()">
-            <!-- <div>
-
-                <mat-form-field appearance="fill">
-                    <mat-label>User ID</mat-label>
-                    <input matInput formControlName="user" placeholder="Enter User ID">
-                </mat-form-field>
-            </div> -->
+            <div>
+                    <h1>{{userData.username}}</h1>
+            </div>
             <h1>Create / Update your Health Metrics</h1>
             <div>
 

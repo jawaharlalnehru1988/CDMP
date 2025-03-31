@@ -50,7 +50,16 @@ export class AuthComponent {
           });
       } else {
         this.authService.register(formData).subscribe({
-          next: () => this.toggleMode(),
+          next: (res: {
+            username: string
+            email: string
+            password: string
+          }) => {
+            this.toggleMode();
+            console.log('Registration successful', res);
+            this.authForm.reset();
+
+          },
           error: (err) =>
             (this.errorMessage = err.console.message || 'Registration Failded'),
         });

@@ -20,7 +20,7 @@ export class AuthService {
   decodedToken: UserReturn | null = {
     id: '',
     role: '',
-    name: '',
+    username: '',
     iat: 0,
     exp: 0
   };
@@ -30,7 +30,11 @@ export class AuthService {
     return !!localStorage.getItem(this.token);
   }
 
-  register(userData:any):Observable<any>{
+  register(userData:{
+    username: string
+    email: string
+    password: string
+  }):Observable<any>{
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
@@ -43,6 +47,19 @@ export class AuthService {
         this.router.navigate(['/dashboard']);
       })
     );
+  }
+
+  getAllUsers():Observable<any>{
+    return this.http.get(`${this.apiUrl}/alluser`);
+  }
+  getUserById(id:string):Observable<any>{
+    return this.http.get(`${this.apiUrl}/profile/${id}`);
+  }
+  updateUser(id:string, userData:any):Observable<any>{
+    return this.http.put(`${this.apiUrl}/update/${id}`, userData);
+  }
+  deleteUser(id:string):Observable<any>{
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }
 
  

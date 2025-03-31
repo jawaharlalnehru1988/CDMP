@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,23 +19,35 @@ import { MatInputModule } from '@angular/material/input';
 export class DashboardComponent {
   userName:string = "";
   userMetrics: any = null;
+  userData: any;
   
   constructor(private dashboardService: DashboardService, private authService: AuthService, private fb: FormBuilder){}
   healthMetricsForm!: FormGroup;
+  subscription: Subscription | undefined;
   
   ngOnInit(): void {
-    this.loadMetrics();
-    // this.authService.userLoggedIn();
-    // console.log(this.authService.decodedToken);
     const authDetails = localStorage.getItem("authToken");
     if (authDetails) {
     this.authService.decodeToken(authDetails);
-    console.log('this.authService.decodeToken(authDetails) :', this.authService.decodeToken(authDetails));
+    this.userData = this.authService.decodeToken(authDetails);
     }
 
     this.healthMetricsForm = this.fb.group({
       type: ['', Validators.required],
       value: ['', [Validators.required, Validators.maxLength(3)]]
+    });
+    this.getHealthMetrics();
+  }
+
+  getHealthMetrics(){
+    this.dashboardService.getHealthMetrics().subscribe({
+      next: (data) => {
+        this.userMetrics = data;
+        console.log(this.userMetrics);
+      },
+      error: (error) => {
+        console.error('Error loading metrics:', error);
+      }
     });
   }
 
@@ -54,9 +67,11 @@ export class DashboardComponent {
     this.authService.logout();
   }
 
+  createdMetric$!: Subscription;
   onSubmit(): void {
     if (this.healthMetricsForm.valid) {
-      console.log(this.healthMetricsForm.value);
+     const formData = {...this.healthMetricsForm.value, userId: this.userData.id};
+     this.createdMetric$ = this.dashboardService.createHealthMetrics(formData).subscribe();
     }
   }
 
