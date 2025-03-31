@@ -19,7 +19,7 @@ export class DashboardService {
   createHealthMetrics(data: HealthMetric): Observable<HealthMetric>{
     return this.http.post<HealthMetric>(`${this.apiUrl}/create`, data);
   }
-  updateHealthMetrics(id: string, data: number): Observable<HealthMetric>{
+  updateHealthMetrics(id: string, data: {value:string}): Observable<HealthMetric>{
     return this.http.patch<HealthMetric>(`${this.apiUrl}/update/${id}`, data);
   }
 

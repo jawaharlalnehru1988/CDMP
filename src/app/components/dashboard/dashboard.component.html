@@ -1,3 +1,19 @@
+<header>
+    <mat-toolbar>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>My App</span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+          <mat-icon>favorite</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+          <mat-icon>share</mat-icon>
+        </button>
+      </mat-toolbar>
+      
+</header>
 <main>   
     <aside>
     <div>
@@ -12,9 +28,9 @@
 </aside>
 <aside>
     <section class="metric-section">
-        <form [formGroup]="healthMetricsForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="healthMetricsForm" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()">
             <div>
-                    <h1>{{userData?.username}}</h1>
+                    <h1>Welcome {{userData?.username}}</h1>
             </div>
             <h1>Create / Update your Health Metrics</h1>
             <div>
@@ -47,23 +63,26 @@
 
             <mat-card>
                 <mat-card-header>
-                    <mat-card-title>Your {{metric.type}} Metrics</mat-card-title>
+                    <mat-card-title>Your {{metric.type | separateText}} Metrics</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    @if(metric.matchedDatas){
+                    <div class="main-content">
+
+                        @if(userMetrics){
                             @for (item of metric.matchedDatas; track item) {
-                                <p><strong>{{item.updatedAt | date:"MM/dd/yy"}}: </strong></p>
+                                <p><strong>{{item.updatedAt | date:"dd-MMM-yy"}}: </strong></p>
                                 <input type="number" [value]="item.value" #temValue min=0 max=999 (input)="0"> 
-                                <mat-icon (click)="updateValue(temValue.value, item._id)" fontIcon="edit"></mat-icon> 
+                                <mat-icon (click)="updateValue(temValue.value, item._id)" fontIcon="edit"></mat-icon>
                                  <mat-icon (click)="deleteValue(item._id)" fontIcon="delete"></mat-icon>
                             }
-                    } @else{
-
-                        <p>No data available. Please log your health metrics.</p>
-                    }
+                        } @else{
+                            
+                            <div>No data available. Please log your health metrics.</div>
+                        }
+                    </div>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-raised-button color="warn">show Chart</button>
+                    <button mat-raised-button color="warn" (click)="showChart(metric)">show Chart</button>
                 </mat-card-actions>
             </mat-card>
         }
@@ -72,3 +91,15 @@
 
 </aside>
 </main>
+
+@if(hideChart){
+    <div class="chart-container">
+        <h1>Your {{chartType}} Metrics</h1>
+        <canvas baseChart 
+        [data]="chartData" 
+        [labels]="['slaes', 'marketing', 'development']"
+        [type]="chartType">
+    </canvas>
+</div>
+}
+  
