@@ -1,4 +1,4 @@
-import { DatePipe, UpperCasePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { AuthService } from '../../services/auth.service';
@@ -67,6 +67,7 @@ export class DashboardComponent {
   getHealthMetrics(){
     this.dashboardService.getHealthMetrics().subscribe({
       next: (data) => {
+      console.log('data :', data);
         this.userMetrics = this.groupMetricsByType(data);
       },
       error: (error) => {
