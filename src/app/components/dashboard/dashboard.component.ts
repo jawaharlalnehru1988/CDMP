@@ -66,7 +66,7 @@ export class DashboardComponent {
 
   getHealthMetrics(){
     this.dashboardService.getHealthMetrics().subscribe({
-      next: (data) => {
+      next: (data:MatricsReturn[]) => {
       console.log('data :', data);
         this.userMetrics = this.groupMetricsByType(data);
       },
@@ -96,18 +96,18 @@ export class DashboardComponent {
   
     return result;
   }
-  showChart(metric: { matchedDatas: any[]; type: any; }){
+  showChart(metric: { matchedDatas: MatricsReturn[]; type: string; }){
     console.log('metric :', metric);
     this.hideChart = !this.hideChart;
     const datePipe = new DatePipe('en-US');
     this.chartData = {
-      labels: metric.matchedDatas.map((item: { updatedAt: any; }) => 
+      labels: metric.matchedDatas.map((item: { updatedAt: Date; }) => 
       datePipe.transform(item.updatedAt, 'dd/MMM/yyyy') || ''
       ),
       datasets: [
       {
         label: metric.type,
-        data: metric.matchedDatas.map((item: { value: any; }) => item.value),
+        data: metric.matchedDatas.map((item: { value: number; }) => item.value),
         backgroundColor: 'rgba(26, 204, 97, 0.6)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1
@@ -120,7 +120,7 @@ export class DashboardComponent {
   updateValue(itemValue:string, itemid: string){
     const updatedValue = { value: itemValue };
     this.dashboardService.updateHealthMetrics(itemid, updatedValue).subscribe({
-      next:(res)=>{
+      next:()=>{
         alert('Health Metric Updated Successfully!');
         this.getHealthMetrics();
       },
@@ -144,7 +144,7 @@ export class DashboardComponent {
 
   loadMetrics(){
     this.dashboardService.getHealthMetrics().subscribe({
-      next: (data) => {
+      next: (data:any) => {
         this.userMetrics = data;
         this.userName = data.username || 'User';
     },

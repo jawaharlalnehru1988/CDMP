@@ -26,7 +26,7 @@ export interface UserReturn {
   
   export interface MatricsReturn {
     _id: string
-    user: User
+    user: User;
     type: string
     value: number
     createdAt: Date

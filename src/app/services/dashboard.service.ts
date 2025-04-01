@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import { HealthMetric } from './interfaces';
+import { HealthMetric, MatricsReturn } from './interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,8 @@ export class DashboardService {
   private apiUrl = `http://localhost:5000/api/metrics`;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
-  getHealthMetrics(): Observable<any>{
-    return this.http.get(`${this.apiUrl}`);
+  getHealthMetrics(){
+    return this.http.get<MatricsReturn[]>(`${this.apiUrl}`);
   }
 
   createHealthMetrics(data: HealthMetric): Observable<HealthMetric>{
@@ -23,7 +23,7 @@ export class DashboardService {
     return this.http.patch<HealthMetric>(`${this.apiUrl}/update/${id}`, data);
   }
 
-  deleteHealthMetrics(id: string): Observable<any>{
+  deleteHealthMetrics(id: string){
     return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }
   
